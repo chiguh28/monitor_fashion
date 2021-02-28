@@ -12,6 +12,7 @@ BOT_NAME = 'monitor'
 SPIDER_MODULES = ['monitor.spiders']
 NEWSPIDER_MODULE = 'monitor.spiders'
 
+# SET_CSV = 'C:\work\01.develop\03.python\02.scrapy\03.monitor\ec_site\monitor\setting.csv'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'monitor'
@@ -51,7 +52,7 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'monitor.selenium_middlewares.SeleniumMiddleware': 543,
+   'monitor.selenium_middlewares.SeleniumDosparaMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -62,9 +63,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'monitor.pipelines.MonitorPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'monitor.pipelines.MonitorDosparaPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -81,8 +82,8 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
-#HTTPCACHE_EXPIRATION_SECS = 0
-#HTTPCACHE_DIR = 'httpcache'
-#HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+HTTPCACHE_ENABLED = True
+HTTPCACHE_EXPIRATION_SECS = 0
+HTTPCACHE_DIR = 'httpcache'
+HTTPCACHE_IGNORE_HTTP_CODES = []
+HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'

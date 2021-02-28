@@ -11,6 +11,10 @@ selenium = "*"
 pandas = "*"
 
 [dev-packages]
+pyinstaller = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+exe = "pyinstaller run.py --noconsole --hidden-import=pandas --hidden-import=selenium --hidden-import=selenium.webdriver.chrome --hidden-import=requests"
