@@ -108,7 +108,7 @@ class MonitorDBPipeline(object):
                 item TEXT NOT NULL, \
                 price INTEGER NOT NULL,\
                 is_stock INTEGER NOT NULL,\
-                url TEXT UNIQUE NOT NULL, \
+                url TEXT UNIQUE NOT NULL\
             );')
 
         return cls._db
@@ -131,7 +131,7 @@ class MonitorDBPipeline(object):
         """
         if self.find_post(item['url']):
             # 既に同じURLのデータが存在する場合はDBと変化しているか確認
-            self.check_chg_post(self,item)
+            self.check_chg_post(item)
             return
 
         # sqlite3はBooleanがないため1,0で判別
@@ -139,7 +139,7 @@ class MonitorDBPipeline(object):
 
         db = self.get_database()
         db.execute(
-            'INSERT INTO post (item,price,is_stock,url) VALUES (?, ?, ?)', (
+            'INSERT INTO post (item,price,is_stock,url) VALUES (?, ?, ?,?)', (
                 item['item'],
                 item['price'],
                 is_stock,
@@ -169,10 +169,10 @@ class MonitorDBPipeline(object):
         )
 
         notify = LineNotify()
-        # cursor(price,is_stock)
-        id = cursor[0]
-        old_price = cursor[1]
-        old_is_stock = cursor[2]
+        data = cursor.fetchone()
+        id = data[0]
+        old_price = data[1]
+        old_is_stock = data[2]
 
         is_stock = self.convert_is_stock(item['is_stock'])
 
