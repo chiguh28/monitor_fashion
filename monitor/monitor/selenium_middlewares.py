@@ -7,6 +7,7 @@ from setting import get_usr_dir
 option = Options()
 usr_dir = get_usr_dir()
 option.add_argument('--user-data-dir=' + usr_dir)
+option.add_argument('--profile-directory=Profile 2')
 driver = webdriver.Chrome(options=option)
 
 

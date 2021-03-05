@@ -76,6 +76,24 @@ class LineNotify:
 
         payload = {'message':message}
         r = requests.post(url,headers=request_headers,params=payload,)
+    
+    def send_messages_cart(self,item):
+        '''メッセージ送信
+        Lineにメッセージを送信する
+        
+        Args:
+            item(dict):スクレイピング取得アイテム
+                item(str)
+                is_stock(bool)
+                price(int)
+                url(str)
+        Returns:
+            None
+        '''
+
+        message = 'カートに追加しました!\n' + '商品名:' + item['item'] + '\n価格:' + str(item['price']) + '円\n' + item['url']
+        payload = {'message':message}
+        r = requests.post(url,headers=request_headers,params=payload,)
 
 
 class MonitorPipeline:
@@ -88,7 +106,7 @@ class MonitorDosparaPipeline:
         notify = LineNotify()
         if item['is_stock']:
             click_cart()
-            notify.send_messages(item)
+            notify.send_messages_cart(item)
         return item
 
 
