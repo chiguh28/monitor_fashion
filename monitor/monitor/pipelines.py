@@ -77,23 +77,23 @@ class LineNotify:
         payload = {'message':message}
         r = requests.post(url,headers=request_headers,params=payload,)
     
-    def send_messages_cart(self,item):
-        '''メッセージ送信
-        Lineにメッセージを送信する
+    # def send_messages_cart(self,item):
+    #     '''メッセージ送信
+    #     Lineにメッセージを送信する
         
-        Args:
-            item(dict):スクレイピング取得アイテム
-                item(str)
-                is_stock(bool)
-                price(int)
-                url(str)
-        Returns:
-            None
-        '''
+    #     Args:
+    #         item(dict):スクレイピング取得アイテム
+    #             item(str)
+    #             is_stock(bool)
+    #             price(int)
+    #             url(str)
+    #     Returns:
+    #         None
+    #     '''
 
-        message = 'カートに追加しました!\n' + '商品名:' + item['item'] + '\n価格:' + str(item['price']) + '円\n' + item['url']
-        payload = {'message':message}
-        r = requests.post(url,headers=request_headers,params=payload,)
+    #     message = 'カートに追加しました!\n' + '商品名:' + item['item'] + '\n価格:' + str(item['price']) + '円\n' + item['url']
+    #     payload = {'message':message}
+    #     r = requests.post(url,headers=request_headers,params=payload,)
 
 
 class MonitorPipeline:
@@ -106,7 +106,7 @@ class MonitorDosparaPipeline:
         notify = LineNotify()
         if item['is_stock']:
             click_cart()
-            notify.send_messages_cart(item)
+            notify.create_message(item,CART)
         return item
 
 
@@ -153,11 +153,11 @@ class MonitorDBPipeline(object):
             return
 
         # sqlite3はBooleanがないため1,0で判別
-        is_stock = self.convert_is_stock(item['is_stock'])
+        is_stock = self.convert_bool2int(item['is_stock'])
 
         db = self.get_database()
         db.execute(
-            'INSERT INTO post (item,price,is_stock,url) VALUES (?, ?, ?,?)', (
+            'INSERT INTO post (item,price,is_stock,url) VALUES (?, ?, ?, ?)', (
                 item['item'],
                 item['price'],
                 is_stock,
@@ -192,7 +192,7 @@ class MonitorDBPipeline(object):
         old_price = data[1]
         old_is_stock = data[2]
 
-        is_stock = self.convert_is_stock(item['is_stock'])
+        is_stock = self.convert_bool2int(item['is_stock'])
 
         # DB値と変化確認
         if old_price > item['price']:
@@ -251,7 +251,7 @@ class MonitorDBPipeline(object):
             (is_stock,id,)
         )
 
-    def convert_is_stock(self,is_stock_bool):
+    def convert_bool2int(self,is_stock_bool):
         # sqlite3はBooleanがないため1,0で判別
         if is_stock_bool:
             is_stock = int(1)
