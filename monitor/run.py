@@ -5,5 +5,5 @@ settings = get_project_settings()
 
 ps = CrawlerProcess(settings)
 
-ps.crawl('dospara')
+ps.crawl('nordstorm')
 ps.start()

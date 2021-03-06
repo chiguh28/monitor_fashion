@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import pandas
 from ..selenium_middlewares import close_driver
 from monitor.items import MonitorItem
-
+from setting import get_url_list
 
 
 
@@ -33,13 +33,13 @@ class NordstormSpider(scrapy.Spider):
         @備考
             商品URLのリストをforで回し、yieldして解析するようにする
         '''
-        file_path = 'C:\\work\\01.develop\\03.python\\02.scrapy\\03.monitor\\ec_site\\ex.csv'
+        file_path = get_url_list()
         df = pandas.read_csv(file_path)
 
-        urls = df.values
+        urls = df['商品URL'].values
 
         for url in urls:
-            yield scrapy.Request(url=url[0],callback=self.parse)    
+            yield scrapy.Request(url=url,callback=self.parse)    
         
 
 
@@ -54,7 +54,7 @@ class NordstormSpider(scrapy.Spider):
             @returns
                 item:商品名
             '''
-            item_box = soup.find('h1',class_=' _6YOLH _1JtW7 _2VF_A _2OMMP')
+            item_box = soup.find('h1',class_='_6YOLH _1JtW7 _2VF_A _2OMMP')
 
             if item_box is not None:
                 item = item_box.text
@@ -72,7 +72,7 @@ class NordstormSpider(scrapy.Spider):
             @returns
                 is_stock:在庫結果
             '''
-            is_stock = r.find('div',class_='iv2E3') is not None
+            is_stock = soup.find('div',class_='iv2E3') is not None
 
             return is_stock
         def get_price(soup):
