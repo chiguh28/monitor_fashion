@@ -30,10 +30,15 @@ class DosparaSpider(scrapy.Spider):
         file_path = get_url_list()
         df = pandas.read_csv(file_path)
 
-        urls = df.values
-
+        urls = df['商品URL'].values
+        run_flag = df['有効性フラグ'].values > 0
+        print(run_flag)
+        print(urls)
+        idx = 0
         for url in urls:
-            yield scrapy.Request(url=url[0],callback=self.parse)    
+            if run_flag[idx]:
+                yield scrapy.Request(url=url,callback=self.parse)
+            idx += 1  
 
     def parse(self, response):
         

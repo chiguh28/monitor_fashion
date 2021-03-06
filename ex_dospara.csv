@@ -1,4 +1,4 @@
-商品URL
-https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000471077&lf=2
-https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000471485&lf=2
-https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000469336&lf=2
+商品URL,有効性フラグ,商品名
+https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000471077&lf=2,1,A
+https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000471485&lf=2,0,B
+https://www.dospara.co.jp/5shopping/detail_parts.php?bg=&br=&sbr=&ic=0000469336&lf=2,1,C
